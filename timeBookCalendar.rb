@@ -1,5 +1,6 @@
 #!/usr/local/bin/ruby
 require File.dirname(__FILE__) + "/timeBookDba"
+load 'config.rb', true
 
 # define Calendar Class
 class Calendar
@@ -60,7 +61,7 @@ def initialize(year, month)
 		end # if
 	end # each
 
-	@dba = Dba.new("", "", "", "")
+	@dba = Dba.new($config[:server], $config[:database], $config[:user], $config[:passwd])
 
 end # def initialize
 
