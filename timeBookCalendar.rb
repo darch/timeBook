@@ -89,7 +89,10 @@ def html_print
 	rows = @dba.selectMonth(@year, @month)
 	rows_ite = 0
 
-	print_data = "<table border=\"3\" cellspacing=\"0\" cellpadding=\"2\">\n"
+	print_data = "<form action=\"./input.cgi\" method=\"get\">"
+	print_data += "<input type=\"hidden\" id=\"year\" name=\"year\" value=\"#{@year}\"/>"
+	print_data += "<input type=\"hidden\" id=\"month\" name=\"month\" value=\"#{@month}\"/>"
+	print_data += "<table border=\"3\" cellspacing=\"0\" cellpadding=\"2\">\n"
 	print_data += "<caption>"
 	print_data += "<a href=\"./timeBook.cgi?#{before_year}+#{before_month}\">&lt;</a>"
 	print_data += " #{@year} / #{@month} "
@@ -121,14 +124,15 @@ def html_print
 			end # if
 		end # if
 		print_data += "<tr style=\"color:#{WeekColor[@wday[day]]};\">\n"
-		print_data += "<td align=\"right\">#{day}</td>\n"
+		print_data += "<td><input type=\"submit\" id=\"day\" name=\"day\" value=\"#{day}\" onClick=\"\"/>"
 		print_data += "<td>#{WeekName[@wday[day]]}</td>\n"
-		print_data += "<td><input type=\"text\" name=\"start#{day}\" value=\"#{startTime}\"/></td>\n"
-		print_data += "<td><input type=\"text\" name=\"end#{day}\" value=\"#{endTime}\"/></td>\n"
-		print_data += "<td><input type=\"text\" name=\"etc#{day}\" value=\"#{memo}\"/></td>\n"
+		print_data += "<td>#{startTime}</td>\n"
+		print_data += "<td>#{endTime}</td>\n"
+		print_data += "<td>#{memo}</td>\n"
 		print_data += "</tr>\n"
 	end # each
 
 	print_data += "</table>\n"
+	print_data += "</form>\n"
 	end # def print_html
 end # class Calendar

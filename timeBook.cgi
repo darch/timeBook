@@ -13,8 +13,8 @@ print "<meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"/>\n
 print "</head>\n"
 print "<body>\n"
 begin
-	calen = Calendar.new(year, month)
-	print "#{calen.html_print}\n"
+	calendar = Calendar.new(year, month)
+	print "#{calendar.html_print}\n"
 rescue
 	print "#{$!}\n"
 end
