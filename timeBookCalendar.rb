@@ -6,24 +6,24 @@ load 'config.rb', true
 class Calendar
 # define weekday display name
 WeekName = [
+'Sun',
 'Mon',
 'Tue',
 'Wed',
 'Thu',
 'Fri',
 'Sat',
-'Sun',
 ]
 
 # define weekday display color
 WeekColor = [
+'#ff0000',
 '#000000',
 '#000000',
 '#000000',
 '#000000',
 '#000000',
 '#0000ff',
-'#ff0000',
 ]
 
 # define today color
@@ -65,6 +65,16 @@ def initialize(year, month)
 
 end # def initialize
 
+def get_wday(day)
+	day = day.to_i
+	return WeekName[@wday[day]]
+end # get_wday
+
+def get_wdayColor(day)
+	day = day.to_i
+	return WeekColor[@wday[day]]
+end # get_wdayColor
+
 # define output html
 def html_print
 	# define before and next year
@@ -86,7 +96,7 @@ def html_print
 	end # if
 
 	# getting data from database
-	rows = @dba.selectMonth(@year, @month)
+	rows = @dba.selectMonth(fix_digit(@year, 4), fix_digit(@month, 2))
 	rows_ite = 0
 
 	print_data = "<form action=\"./input.cgi\" method=\"get\">"
@@ -94,15 +104,15 @@ def html_print
 	print_data += "<input type=\"hidden\" id=\"month\" name=\"month\" value=\"#{@month}\"/>"
 	print_data += "<table border=\"3\" cellspacing=\"0\" cellpadding=\"2\">\n"
 	print_data += "<caption>"
-	print_data += "<a href=\"./timeBook.cgi?#{before_year}+#{before_month}\">&lt;</a>"
-	print_data += " #{@year} / #{@month} "
-	print_data += "<a href=\"./timeBook.cgi?#{next_year}+#{next_month}\">&gt;</a>"
+	print_data += "<a href=\"./timeBook.cgi?year=#{fix_digit(before_year, 4)}&month=#{fix_digit(before_month, 2)}\">&lt;</a>"
+	print_data += " #{fix_digit(@year, 4)} / #{fix_digit(@month, 2)} "
+	print_data += "<a href=\"./timeBook.cgi?year=#{fix_digit(next_year, 4)}&month=#{fix_digit(next_month, 2)}\">&gt;</a>"
 	print_data += "</caption>\n"
 
 	# print header
 	print_data += "<tr>"
-	print_data += "<th>date</th>"
-	print_data += "<th>day</th>"
+	print_data += "<th align=\"center\">date</th>"
+	print_data += "<th align=\"center\">day</th>"
 	print_data += "<th>start</th>"
 	print_data += "<th>end</th>"
 	print_data += "<th>memo</th>"
@@ -115,7 +125,7 @@ def html_print
 		startTime = ""
 		endTime = ""
 		memo = ""
-		if rows.size != 0 and rows[rows_ite][0] == "#{@year}#{@month}#{day}"
+		if rows.size != 0 and rows[rows_ite][0] == "#{fix_digit(@year, 4)}#{fix_digit(@month, 2)}#{fix_digit(day, 2)}"
 			startTime = rows[rows_ite][1]
 			endTime = rows[rows_ite][2]
 			memo = rows[rows_ite][3]
@@ -124,8 +134,8 @@ def html_print
 			end # if
 		end # if
 		print_data += "<tr style=\"color:#{WeekColor[@wday[day]]};\">\n"
-		print_data += "<td><input type=\"submit\" id=\"day\" name=\"day\" value=\"#{day}\" onClick=\"\"/>"
-		print_data += "<td>#{WeekName[@wday[day]]}</td>\n"
+		print_data += "<td align=\"center\"><input type=\"submit\" id=\"day\" name=\"day\" value=\"#{fix_digit(day, 2)}\"/>"
+		print_data += "<td align=\"center\">#{WeekName[@wday[day]]}</td>\n"
 		print_data += "<td>#{startTime}</td>\n"
 		print_data += "<td>#{endTime}</td>\n"
 		print_data += "<td>#{memo}</td>\n"
@@ -135,4 +145,10 @@ def html_print
 	print_data += "</table>\n"
 	print_data += "</form>\n"
 	end # def print_html
+
+	# 文字列と桁数を受けとり、桁数分0で埋めた文字列を返す。
+	def fix_digit(str, digit)
+		str = "%0#{digit}d" % str.to_s
+		return str
+	end # def fix_digit
 end # class Calendar

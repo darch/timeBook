@@ -39,7 +39,25 @@ end # disconnect
 def selectMonth(year, month)
 	begin
 		#puts "情報を取得します。year:#{year}, month:#{month}"
-		sql = "SELECT * FROM time_book WHERE date LIKE '#{year}#{month}%'"
+		sql = "SELECT * FROM time_book WHERE date LIKE '#{year}#{month}%' ORDER BY time_book.date ASC"
+		sth = @dbh.execute(sql)
+		rows = sth.fetch_all
+		sth.finish
+		#puts "情報を取得しました。行数:#{rows.size}"
+	rescue DBI::DatabaseError => e
+		puts "An error occurred"
+		puts "Error code: #{e.err}"
+		puts "Error message: #{e.errstr}"
+	end
+	return rows
+end # selectMonth
+
+# 一日分のデータを取得するメソッド
+# 取得する年と月と日を指定する
+def selectDay(year, month, day)
+	begin
+		#puts "情報を取得します。year:#{year}, month:#{month}, day:#{day}"
+		sql = "SELECT * FROM time_book WHERE date = '#{year}#{month}#{day}'"
 		sth = @dbh.execute(sql)
 		rows = sth.fetch_all
 		sth.finish
@@ -56,7 +74,7 @@ end # selectMonth
 def selectAll
 	begin
 		#puts "情報を取得します。year:*, month:*"
-		sql = "SELECT * FROM time_book"
+		sql = "SELECT * FROM time_book ORDER BY time_book.date ASC"
 		sth = @dbh.execute(sql)
 		rows = sth.fetch_all
 		sth.finish
@@ -70,12 +88,20 @@ def selectAll
 end # selectAll
 
 # 指定された情報をデータベースに挿入するメソッド
-def insertDate(date, startTime, endTime, memo)
+def inputDate(date, startTime, endTime, memo)
 	begin
-		#puts "情報を登録します。date:#{date}, start:#{startTime}, end:#{endTime}, memo:#{memo}"
-		sql = "INSERT INTO time_book (date, start, end, memo) VALUES(?, ?, ?, ?)"
-		@dbh.do(sql, date, startTime, endTime, memo)
-		#puts "情報を登録しました。"
+		rows = selectDay(date[0, 4], date[4, 2], date[6, 2])
+		if rows.size == 0
+			#puts "情報を登録します。date:#{date}, start:#{startTime}, end:#{endTime}, memo:#{memo}"
+			sql = "INSERT INTO time_book (date, start, end, memo) VALUES(?, ?, ?, ?)"
+			@dbh.do(sql, date, startTime, endTime, memo)
+			#puts "情報を登録しました。"
+		else
+			#puts "情報を更新します。date:#{date}, start:#{startTime}, end:#{endTime}, memo:#{memo}"
+			sql = "UPDATE time_book SET start = ?, end = ?, memo = ? WHERE date = ?"
+			@dbh.do(sql, startTime, endTime, memo, date)
+			#puts "情報を更新しました。"
+		end # if
 	rescue DBI::DatabaseError => e
 		puts "An error occurred"
 		puts "Error code: #{e.err}"
