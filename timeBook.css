@@ -1,0 +1,75 @@
+table {
+	border: solid 2px #000000;
+	border-collapse: collapse;
+	width: 460px;
+	table-layout: fixed;
+	empty-cells: show;
+}
+
+th, td {
+	border: solid 1px #000000;
+}
+
+.Sun {
+	color: #ff0000;
+}
+
+.Sat {
+	color: #0000ff;
+}
+
+.time_book {
+}
+
+.date_header {
+	text-align: center;
+	width: 45px;
+}
+
+.day_header {
+	text-align: center;
+	width: 35px;
+}
+
+.start_header {
+	width: 45px;
+}
+
+.end_header {
+	width: 45px;
+}
+
+.memo_header {
+	width: 290px;
+}
+
+.date_data {
+	text-align: center;
+}
+
+.day_data {
+	text-align: center;
+}
+
+.start_data {
+	text-align: center;
+}
+
+.end_data {
+	text-align: center;
+}
+
+.memo_data {
+}
+
+.start_input {
+	width: 40px;
+}
+
+.end_input {
+	width: 40px;
+}
+
+.memo_input {
+	width: 285px;
+}

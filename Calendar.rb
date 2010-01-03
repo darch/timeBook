@@ -1,5 +1,5 @@
 #!/usr/local/bin/ruby
-require File.dirname(__FILE__) + "/timeBookDba"
+require File.dirname(__FILE__) + "/Dba"
 load 'config.rb', true
 
 # define Calendar Class
@@ -70,11 +70,6 @@ def get_wday(day)
 	return WeekName[@wday[day]]
 end # get_wday
 
-def get_wdayColor(day)
-	day = day.to_i
-	return WeekColor[@wday[day]]
-end # get_wdayColor
-
 # define output html
 def html_print
 	# define before and next year
@@ -99,23 +94,24 @@ def html_print
 	rows = @dba.selectMonth(fix_digit(@year, 4), fix_digit(@month, 2))
 	rows_ite = 0
 
-	print_data = "<form action=\"./input.cgi\" method=\"POST\">"
-	print_data += "<input type=\"hidden\" id=\"year\" name=\"year\" value=\"#{@year}\"/>"
-	print_data += "<input type=\"hidden\" id=\"month\" name=\"month\" value=\"#{@month}\"/>"
-	print_data += "<table border=\"3\" cellspacing=\"0\" cellpadding=\"2\" width=\"300\">\n"
-	print_data += "<caption>"
-	print_data += "<a href=\"./timeBook.cgi?year=#{fix_digit(before_year, 4)}&month=#{fix_digit(before_month, 2)}\">&lt;</a>"
-	print_data += " #{fix_digit(@year, 4)} / #{fix_digit(@month, 2)} "
-	print_data += "<a href=\"./timeBook.cgi?year=#{fix_digit(next_year, 4)}&month=#{fix_digit(next_month, 2)}\">&gt;</a>"
+	print_data = "<form name=\"goto_input\" action=\"./input.cgi\" method=\"POST\">\n"
+	print_data += "<input type=\"hidden\" id=\"year\" name=\"year\" value=\"#{@year}\"/>\n"
+	print_data += "<input type=\"hidden\" id=\"month\" name=\"month\" value=\"#{@month}\"/>\n"
+	print_data += "<input type=\"hidden\" id=\"day\" name=\"day\" value=\"\"/>\n"
+	print_data += "<table class=\"time_book\">\n"
+	print_data += "<caption>\n"
+	print_data += "<a href=\"./list.cgi?year=#{fix_digit(before_year, 4)}&month=#{fix_digit(before_month, 2)}\">&lt;</a>\n"
+	print_data += "#{fix_digit(@year, 4)}&nbsp;/&nbsp;#{fix_digit(@month, 2)}\n"
+	print_data += "<a href=\"./list.cgi?year=#{fix_digit(next_year, 4)}&month=#{fix_digit(next_month, 2)}\">&gt;</a>\n"
 	print_data += "</caption>\n"
 
 	# print header
-	print_data += "<tr>"
-	print_data += "<th align=\"center\">date</th>"
-	print_data += "<th align=\"center\">day</th>"
-	print_data += "<th>start</th>"
-	print_data += "<th>end</th>"
-	print_data += "<th>memo</th>"
+	print_data += "<tr>\n"
+	print_data += "<th class=\"date_header\">date</th>\n"
+	print_data += "<th class=\"day_header\">day</th>\n"
+	print_data += "<th class=\"start_header\">start</th>\n"
+	print_data += "<th class=\"end_header\">end</th>\n"
+	print_data += "<th class=\"memo_header\">memo</th>\n"
 	print_data += "</tr>\n"
 	# print daydata
 	(1..@wday.length - 1).each do |day|
@@ -133,12 +129,12 @@ def html_print
 				rows_ite += 1
 			end # if
 		end # if
-		print_data += "<tr style=\"color:#{WeekColor[@wday[day]]};\">\n"
-		print_data += "<td align=\"center\"><input type=\"submit\" id=\"day\" name=\"day\" value=\"#{fix_digit(day, 2)}\"/>"
-		print_data += "<td align=\"center\">#{WeekName[@wday[day]]}</td>\n"
-		print_data += "<td>#{startTime}</td>\n"
-		print_data += "<td>#{endTime}</td>\n"
-		print_data += "<td>#{memo}</td>\n"
+		print_data += "<tr>\n"
+		print_data += "<td class=\"date_data #{WeekName[@wday[day]]}\"><a href=\"javascript:submit(#{fix_digit(day, 2)});return false;\" target=\"_self\"/>#{fix_digit(day, 2)}</a></td>\n"
+		print_data += "<td class=\"day_data #{WeekName[@wday[day]]}\">#{WeekName[@wday[day]]}</td>\n"
+		print_data += "<td class=\"start_data\">#{startTime}</td>\n"
+		print_data += "<td class=\"end_data\">#{endTime}</td>\n"
+		print_data += "<td class=\"memo_data\">#{memo}</td>\n"
 		print_data += "</tr>\n"
 	end # each
 

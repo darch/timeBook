@@ -1,7 +1,7 @@
 #!/usr/local/bin/ruby
 
-require File.dirname(__FILE__) + "/timeBookCalendar"
-require File.dirname(__FILE__) + "/timeBookDba"
+require File.dirname(__FILE__) + "/Calendar"
+require File.dirname(__FILE__) + "/Dba"
 require "cgi-lib"
 load "config.rb", true
 
@@ -27,6 +27,8 @@ print "<html>\n"
 print "<head>\n"
 print "<title>time book</title>\n"
 print "<meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\"/>\n"
+print "<link rel=\"stylesheet\" type=\"text/css\" href=\"timeBook.css\"/>\n"
+print "<script type=\"text/javascript\" src=\"timeBook.js\"></script>"
 print "</head>\n"
 print "<body>\n"
 begin
@@ -35,4 +37,5 @@ begin
 rescue
 	print "#{$!}\n"
 end
-print "</body></html>\n"
+print "</body>\n"
+print "</html>\n"
