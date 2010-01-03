@@ -99,10 +99,10 @@ def html_print
 	rows = @dba.selectMonth(fix_digit(@year, 4), fix_digit(@month, 2))
 	rows_ite = 0
 
-	print_data = "<form action=\"./input.cgi\" method=\"get\">"
+	print_data = "<form action=\"./input.cgi\" method=\"POST\">"
 	print_data += "<input type=\"hidden\" id=\"year\" name=\"year\" value=\"#{@year}\"/>"
 	print_data += "<input type=\"hidden\" id=\"month\" name=\"month\" value=\"#{@month}\"/>"
-	print_data += "<table border=\"3\" cellspacing=\"0\" cellpadding=\"2\">\n"
+	print_data += "<table border=\"3\" cellspacing=\"0\" cellpadding=\"2\" width=\"300\">\n"
 	print_data += "<caption>"
 	print_data += "<a href=\"./timeBook.cgi?year=#{fix_digit(before_year, 4)}&month=#{fix_digit(before_month, 2)}\">&lt;</a>"
 	print_data += " #{fix_digit(@year, 4)} / #{fix_digit(@month, 2)} "

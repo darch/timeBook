@@ -21,7 +21,7 @@ print <<EOF;
 <meta http-equiv="Content-type" content="text/html;charset=utf-8"/>
 </head>
 <body>
-<form action="./timeBook.cgi" method="get">
+<form action="./timeBook.cgi" method="POST">
 <input type=\"hidden\" name=\"year\" value=\"#{calendar.fix_digit(input['year'], 4)}\"/>
 <input type=\"hidden\" name=\"month\" value=\"#{calendar.fix_digit(input['month'], 2)}\"/>
 <input type=\"hidden\" name=\"day\" value=\"#{calendar.fix_digit(input['day'], 2)}\"/>
