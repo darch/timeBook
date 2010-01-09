@@ -20,12 +20,14 @@ print <<EOF;
 <title>入力画面</title>
 <meta http-equiv="Content-type" content="text/html;charset=utf-8"/>
 <link rel="stylesheet" type="text/css" href="timeBook.css"/>
+<script type="text/javascript" src="timeBook.js"></script>
 </head>
 <body>
-<form action="./list.cgi" method="POST">
+<form name="gotoList" action="javascript:void(0);">
 <input type=\"hidden\" name=\"year\" value=\"#{calendar.fix_digit(input['year'], 4)}\"/>
 <input type=\"hidden\" name=\"month\" value=\"#{calendar.fix_digit(input['month'], 2)}\"/>
 <input type=\"hidden\" name=\"day\" value=\"#{calendar.fix_digit(input['day'], 2)}\"/>
+<input type=\"hidden\" name=\"command\" value=\"\"/>
 <table>
 <caption>
 #{calendar.fix_digit(input['year'], 4)}&nbsp;/&nbsp;#{calendar.fix_digit(input['month'], 2)}
@@ -45,8 +47,8 @@ print <<EOF;
 <td class="memo_data"><input type="text" class="memo_input" name="memo" value="#{rows[0][3]}"/></td>
 </tr>
 </table>
-<input type="submit" name="command" value="submit"/>
-<input type="submit" name="command" value="revert"/>
+<input type="button" value="submit" onClick="goto_List('submit')"/>
+<input type="button" value="revert" onClick="goto_List('revert')"/>
 </form>
 </body>
 </html>
