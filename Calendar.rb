@@ -130,7 +130,7 @@ def html_print
 			end # if
 		end # if
 		print_data += "<tr>\n"
-		print_data += "<td class=\"date_data #{WeekName[@wday[day]]}\"><a href=\"javascript:submit(#{fix_digit(day, 2)});return false;\" target=\"_self\">#{fix_digit(day, 2)}</a></td>\n"
+		print_data += "<td class=\"date_data #{WeekName[@wday[day]]}\"><a href=\"javascript:submit(#{fix_digit(day, 2)});\" target=\"_self\">#{fix_digit(day, 2)}</a></td>\n"
 		print_data += "<td class=\"day_data #{WeekName[@wday[day]]}\">#{WeekName[@wday[day]]}</td>\n"
 		print_data += "<td class=\"start_data\">#{startTime}</td>\n"
 		print_data += "<td class=\"end_data\">#{endTime}</td>\n"

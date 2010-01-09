@@ -4,4 +4,5 @@ function submit(day){
 	myForm.action="input.cgi";
 	myForm.method="POST";
 	myForm.submit();
+	return false;
 }
