@@ -3,6 +3,17 @@
 # define Calendar Class
 class Calendar
 
+# define weekday display name<
+WeekName = [
+'Sun',
+'Mon',
+'Tue',
+'Wed',
+'Thu',
+'Fri',
+'Sat',
+]
+
 # define initialize method
 def initialize(year, month)
 	@year = year.to_i
@@ -52,5 +63,10 @@ def get_calendar
 	# 日付情報を返却
 	return cal_data
 end # def get_calendar
+
+def get_wday(day)
+	day = day.to_i
+	return WeekName[@wday[day]]
+end # get_wday
 
 end # class Calendar

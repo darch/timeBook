@@ -8,7 +8,7 @@ input = CGI.new
 
 calendar = Calendar.new(input['year'], input['month'])
 dba = Dba.new($config[:server], $config[:database], $config[:user], $config[:passwd])
-rows = dba.selectDay(calendar.fix_digit(input['year'], 4), calendar.fix_digit(input['month'], 2), calendar.fix_digit(input['day'], 2))
+rows = dba.selectDay(input['year'], input['month'], input['day'])
 if rows.size == 0
 	rows = ["", "", "" , ""]
 end
@@ -24,13 +24,13 @@ print <<EOF;
 </head>
 <body>
 <form name="gotoList" action="javascript:void(0);">
-<input type=\"hidden\" name=\"year\" value=\"#{calendar.fix_digit(input['year'], 4)}\"/>
-<input type=\"hidden\" name=\"month\" value=\"#{calendar.fix_digit(input['month'], 2)}\"/>
-<input type=\"hidden\" name=\"day\" value=\"#{calendar.fix_digit(input['day'], 2)}\"/>
+<input type=\"hidden\" name=\"year\" value=\"#{input['year']}\"/>
+<input type=\"hidden\" name=\"month\" value=\"#{input['month']}\"/>
+<input type=\"hidden\" name=\"day\" value=\"#{input['day']}\"/>
 <input type=\"hidden\" name=\"command\" value=\"\"/>
 <table>
 <caption>
-#{calendar.fix_digit(input['year'], 4)}&nbsp;/&nbsp;#{calendar.fix_digit(input['month'], 2)}
+#{input['year']}&nbsp;/&nbsp;#{input['month']}
 </caption>
 <tr align=\"center\">
 <th class="date_header">date</th>

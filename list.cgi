@@ -5,17 +5,6 @@ require File.dirname(__FILE__) + "/Dba"
 require "cgi-lib"
 load "config.rb", true
 
-# define weekday display name<
-WeekName = [
-'Sun',
-'Mon',
-'Tue',
-'Wed',
-'Thu',
-'Fri',
-'Sat',
-]
-
 # 文字列と桁数を受けとり、桁数分0で埋めた文字列を返す。
 def fix_digit(str, digit)
 	str = "%0#{digit}d" % str.to_s
@@ -102,7 +91,7 @@ print "</tr>\n"
 begin
 	cal_data.each do |day_data|
 		day = day_data[0]
-		wday = WeekName[day_data[1]]
+		wday = Calendar::WeekName[day_data[1]]
 		startTime = ""
 		endTime = ""
 		memo = ""
