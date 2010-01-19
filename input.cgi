@@ -1,6 +1,7 @@
 #!/usr/local/bin/ruby
 require File.dirname(__FILE__) + "/Calendar"
 require File.dirname(__FILE__) + "/Dba"
+require File.dirname(__FILE__) + "/Common"
 require "cgi-lib"
 load "config.rb", true
 
@@ -8,7 +9,7 @@ input = CGI.new
 
 calendar = Calendar.new(input['year'], input['month'])
 dba = Dba.new($config[:server], $config[:database], $config[:user], $config[:passwd])
-rows = dba.selectDay(input['year'], input['month'], input['day'])
+rows = dba.selectDay(Common.fix_digit(input['year'], 4), Common.fix_digit(input['month'], 2), Common.fix_digit(input['day'], 2))
 if rows.size == 0
 	rows = ["", "", "" , ""]
 end

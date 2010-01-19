@@ -2,14 +2,9 @@
 
 require File.dirname(__FILE__) + "/Calendar"
 require File.dirname(__FILE__) + "/Dba"
+require File.dirname(__FILE__) + "/Common"
 require "cgi-lib"
 load "config.rb", true
-
-# 文字列と桁数を受けとり、桁数分0で埋めた文字列を返す。
-def fix_digit(str, digit)
-	str = "%0#{digit}d" % str.to_s
-	return str
-end # def fix_digit
 
 input = CGI.new
 year = input['year'] || Time.now.year
@@ -48,11 +43,11 @@ begin
 
 	# 入力情報がある場合はデータベースに登録
 	if input['command'] == "submit"
-		dba.inputDate("#{fix_digit(year, 4)}#{fix_digit(month, 2)}#{fix_digit(day, 2)}", "#{input['start']}", "#{input['end']}", "#{input['memo']}")
+		dba.inputDate("#{Common.fix_digit(year, 4)}#{Common.fix_digit(month, 2)}#{Common.fix_digit(day, 2)}", "#{input['start']}", "#{input['end']}", "#{input['memo']}")
 	end
 
 	# 入力済み情報の取得
-	rows = dba.selectMonth(fix_digit(year, 4), fix_digit(month, 2))
+	rows = dba.selectMonth(Common.fix_digit(year, 4), Common.fix_digit(month, 2))
 	rows_ite = 0
 
 	# データベースから切断
@@ -77,9 +72,9 @@ print "<input type=\"hidden\" id=\"month\" name=\"month\" value=\"#{month}\"/>\n
 print "<input type=\"hidden\" id=\"day\" name=\"day\" value=\"\"/>\n"
 print "<table class=\"time_book\">\n"
 print "<caption>\n"
-print "<a href=\"./list.cgi?year=#{fix_digit(prev_year, 4)}&month=#{fix_digit(prev_month, 2)}\">&lt;</a>\n"
-print "#{fix_digit(year, 4)}&nbsp;/&nbsp;#{fix_digit(month, 2)}\n"
-print "<a href=\"./list.cgi?year=#{fix_digit(next_year, 4)}&month=#{fix_digit(next_month, 2)}\">&gt;</a>\n"
+print "<a href=\"./list.cgi?year=#{Common.fix_digit(prev_year, 4)}&month=#{Common.fix_digit(prev_month, 2)}\">&lt;</a>\n"
+print "#{Common.fix_digit(year, 4)}&nbsp;/&nbsp;#{Common.fix_digit(month, 2)}\n"
+print "<a href=\"./list.cgi?year=#{Common.fix_digit(next_year, 4)}&month=#{Common.fix_digit(next_month, 2)}\">&gt;</a>\n"
 print "</caption>\n"
 print "<tr>\n"
 print "<th class=\"date_header\">date</th>\n"
@@ -95,7 +90,7 @@ begin
 		startTime = ""
 		endTime = ""
 		memo = ""
-		if rows.size != 0 and rows[rows_ite][0] == "#{fix_digit(year, 4)}#{fix_digit(month, 2)}#{fix_digit(day, 2)}"
+		if rows.size != 0 and rows[rows_ite][0] == "#{Common.fix_digit(year, 4)}#{Common.fix_digit(month, 2)}#{Common.fix_digit(day, 2)}"
 			startTime = rows[rows_ite][1]
 			endTime = rows[rows_ite][2]
 			memo = rows[rows_ite][3]
@@ -104,7 +99,7 @@ begin
 			end # if
 		end # if
 		print "<tr>\n"
-		print "<td class=\"date_data #{wday}\"><a href=\"javascript:goto_Input(#{fix_digit(day, 2)});\" target=\"_self\">#{fix_digit(day, 2)}</a></td>\n"
+		print "<td class=\"date_data #{wday}\"><a href=\"javascript:goto_Input(#{Common.fix_digit(day, 2)});\" target=\"_self\">#{Common.fix_digit(day, 2)}</a></td>\n"
 		print "<td class=\"day_data #{wday}\">#{wday}</td>\n"
 		print "<td class=\"start_data\">#{startTime}</td>\n"
 		print "<td class=\"end_data\">#{endTime}</td>\n"
