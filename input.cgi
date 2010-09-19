@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/ruby
 require File.dirname(__FILE__) + "/Calendar"
 require File.dirname(__FILE__) + "/Dba"
 require File.dirname(__FILE__) + "/Common"
@@ -14,7 +14,6 @@ if rows.size == 0
 	rows = ["", "", "" , ""]
 end
 
-print "Content-type: text/html;charset=UTF-8\n\n"
 print <<EOF;
 <html>
 <head>

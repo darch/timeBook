@@ -1,4 +1,5 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/ruby
+require "rubygems"
 require "dbi"
 
 # データベースアクセスを行うためのクラス
@@ -16,7 +17,7 @@ def initialize(server, database, user, passwd)
 	begin
 		#puts "サーバに接続します。server:#{@server}, database:#{@database}, user:#{@user}"
 		# データベースに接続
-		@dbh = DBI.connect("dbi:Mysql:#{@database}:#{@server}", "#{@user}", "#{@passwd}")
+		@dbh = DBI.connect("DBI:Mysql:#{@database}:#{@server}", "#{@user}", "#{@passwd}")
 		# 文字コードの設定
 		@dbh.do("SET CHARACTER SET utf8")
 		#puts "サーバに接続しました。"

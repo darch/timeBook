@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/ruby
 
 require File.dirname(__FILE__) + "/Calendar"
 require File.dirname(__FILE__) + "/Dba"
@@ -57,7 +57,6 @@ rescue
 end
 
 
-print "Content-type: text/html;charset=UTF-8\n\n"
 print "<html>\n"
 print "<head>\n"
 print "<title>time book</title>\n"
