@@ -1,0 +1,6 @@
+CREATE TABLE time_book (
+	date VARCHAR(8) PRIMARY KEY,
+	start VARCHAR(4) DEFAULT '',
+	end VARCHAR(4) DEFAULT '',
+	memo VARCHAR(255) DEFAULT ''
+)
