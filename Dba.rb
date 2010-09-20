@@ -110,6 +110,23 @@ def inputDate(date, startTime, endTime, memo)
 	end
 end # insertDate
 
+# 指定された情報をデータベースから削除するメソッド
+def deleteData(date)
+	begin
+		rows = selectDay(date[0, 4], date[4, 2], date[6, 2])
+		if rows.size != 0
+			#puts "情報を削除します。date:#{date}"
+			sql = "DELETE FROM time_book WHERE date = ?"
+			@dbh.do(sql, date)
+			#puts "情報を削除しました。"
+		end # if
+	rescue DBI::DatabaseError => e
+		puts "An error occurred"
+		puts "Error code: #{e.err}"
+		puts "Error message: #{e.errstr}"
+	end
+end # deleteDate
+
 # データベースの情報を全て削除するメソッド
 def deleteAll
 	begin

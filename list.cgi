@@ -42,8 +42,10 @@ begin
 	dba = Dba.new($config[:server], $config[:database], $config[:user], $config[:passwd])
 
 	# 入力情報がある場合はデータベースに登録
-	if input['command'] == "submit"
+	if input['command'] == "submit" && ( input['start'] != "" || input['end'] != "" || input['memo'] != "" )
 		dba.inputDate("#{Common.fix_digit(year, 4)}#{Common.fix_digit(month, 2)}#{Common.fix_digit(day, 2)}", "#{input['start']}", "#{input['end']}", "#{input['memo']}")
+	elsif input['command'] == "submit"
+		dba.deleteData("#{Common.fix_digit(year, 4)}#{Common.fix_digit(month, 2)}#{Common.fix_digit(day, 2)}")
 	end
 
 	# 入力済み情報の取得
